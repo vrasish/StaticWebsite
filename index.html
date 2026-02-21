@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Me</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            color: white;
+            padding: 40px 20px;
+            animation: fadeInDown 1s ease-out;
+        }
+
+        h1 {
+            font-size: 3.5rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        h1:hover {
+            transform: scale(1.1) rotate(2deg);
+        }
+
+        .subtitle {
+            font-size: 1.3rem;
+            opacity: 0.9;
+            animation: fadeIn 1.5s ease-out;
+        }
+
+        .facts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        .fact-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            animation: fadeInUp 0.8s ease-out backwards;
+        }
+
+        .fact-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.3), transparent);
+            transform: rotate(45deg);
+            transition: all 0.6s;
+            opacity: 0;
+        }
+
+        .fact-card:hover::before {
+            animation: shine 0.6s ease-in-out;
+            opacity: 1;
+        }
+
+        .fact-card:nth-child(1) { animation-delay: 0.1s; }
+        .fact-card:nth-child(2) { animation-delay: 0.2s; }
+        .fact-card:nth-child(3) { animation-delay: 0.3s; }
+        .fact-card:nth-child(4) { animation-delay: 0.4s; }
+        .fact-card:nth-child(5) { animation-delay: 0.5s; }
+        .fact-card:nth-child(6) { animation-delay: 0.6s; }
+
+        .fact-card:hover {
+            transform: translateY(-15px) scale(1.05);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        }
+
+        .fact-card:active {
+            transform: translateY(-5px) scale(1.02);
+        }
+
+        .fact-icon {
+            font-size: 3.5rem;
+            margin-bottom: 15px;
+            display: block;
+            transition: transform 0.3s ease;
+        }
+
+        .fact-card:hover .fact-icon {
+            transform: rotate(360deg) scale(1.2);
+        }
+
+        .fact-title {
+            font-size: 1.8rem;
+            color: #667eea;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+
+        .fact-description {
+            color: #555;
+            line-height: 1.6;
+            font-size: 1.1rem;
+        }
+
+        .interactive-section {
+            margin-top: 50px;
+            text-align: center;
+        }
+
+        .click-counter {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 30px;
+            margin: 30px auto;
+            max-width: 500px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .counter-button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.2rem;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            margin: 10px;
+        }
+
+        .counter-button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+        }
+
+        .counter-button:active {
+            transform: scale(0.95);
+        }
+
+        .counter-display {
+            font-size: 2.5rem;
+            color: #667eea;
+            font-weight: bold;
+            margin: 20px 0;
+        }
+
+        .color-changer {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 30px;
+            margin: 30px auto;
+            max-width: 500px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .color-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+
+        .color-btn {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            border: 3px solid white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .color-btn:hover {
+            transform: scale(1.2);
+            border-color: #333;
+        }
+
+        .color-btn:active {
+            transform: scale(0.9);
+        }
+
+        .floating-elements {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .floating {
+            position: absolute;
+            color: rgba(255, 255, 255, 0.1);
+            font-size: 2rem;
+            animation: float 20s infinite linear;
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes shine {
+            0% {
+                left: -100%;
+                top: -100%;
+            }
+            100% {
+                left: 100%;
+                top: 100%;
+            }
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+            }
+            100% {
+                transform: translateY(-100vh) rotate(360deg);
+            }
+        }
+
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.1);
+            }
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.5rem;
+            }
+            .facts-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="floating-elements">
+        <div class="floating" style="left: 10%; animation-delay: 0s;">🎵</div>
+        <div class="floating" style="left: 20%; animation-delay: 2s;">🐕</div>
+        <div class="floating" style="left: 30%; animation-delay: 4s;">📚</div>
+        <div class="floating" style="left: 40%; animation-delay: 6s;">☕</div>
+        <div class="floating" style="left: 50%; animation-delay: 8s;">🎨</div>
+        <div class="floating" style="left: 60%; animation-delay: 10s;">🌍</div>
+        <div class="floating" style="left: 70%; animation-delay: 12s;">🎬</div>
+        <div class="floating" style="left: 80%; animation-delay: 14s;">🎮</div>
+    </div>
+
+    <div class="container">
+        <header>
+            <h1 id="mainTitle">About Me</h1>
+            <p class="subtitle">Click around to discover more about me!</p>
+        </header>
+
+        <div class="facts-grid">
+            <div class="fact-card" onclick="playSound('sing')">
+                <span class="fact-icon">🎵</span>
+                <h2 class="fact-title">I Love to Sing</h2>
+                <p class="fact-description">Music is my passion! Whether it's in the shower, at karaoke, or just humming along to my favorite tunes, singing brings me joy and helps me express myself. I enjoy everything from pop to classical!</p>
+            </div>
+
+            <div class="fact-card" onclick="playSound('dog')">
+                <span class="fact-icon">🐕</span>
+                <h2 class="fact-title">Golden Retrievers Are My Favorite</h2>
+                <p class="fact-description">There's nothing quite like the loyalty and warmth of a Golden Retriever! Their friendly nature, intelligence, and that beautiful golden coat make them absolutely irresistible. I could spend hours playing with them!</p>
+            </div>
+
+            <div class="fact-card" onclick="playSound('read')">
+                <span class="fact-icon">📚</span>
+                <h2 class="fact-title">Reading Is My Escape</h2>
+                <p class="fact-description">Books are my gateway to different worlds, perspectives, and adventures. From fiction to non-fiction, I love getting lost in a good story. There's something magical about turning pages and discovering new ideas!</p>
+            </div>
+
+            <div class="fact-card" onclick="playSound('coffee')">
+                <span class="fact-icon">☕</span>
+                <h2 class="fact-title">Coffee Enthusiast</h2>
+                <p class="fact-description">I start every morning with a perfect cup of coffee! Whether it's a latte, cappuccino, or a simple black coffee, I love exploring different coffee shops and brewing methods. Coffee and a good book? Perfect combination!</p>
+            </div>
+
+            <div class="fact-card" onclick="playSound('travel')">
+                <span class="fact-icon">🌍</span>
+                <h2 class="fact-title">Adventure Seeker</h2>
+                <p class="fact-description">I love exploring new places and experiencing different cultures! Traveling opens my mind and creates unforgettable memories. From mountains to beaches, cities to countryside - I'm always ready for the next adventure!</p>
+            </div>
+
+            <div class="fact-card" onclick="playSound('creative')">
+                <span class="fact-icon">🎨</span>
+                <h2 class="fact-title">Creative Soul</h2>
+                <p class="fact-description">I enjoy expressing myself through various creative outlets - whether it's writing, drawing, photography, or music. Creativity allows me to see the world in unique ways and share my perspective with others!</p>
+            </div>
+        </div>
+
+        <div class="interactive-section">
+            <div class="click-counter">
+                <h2 style="color: #667eea; margin-bottom: 20px;">Interactive Counter</h2>
+                <p style="color: #666; margin-bottom: 15px;">How many times have you clicked the cards?</p>
+                <div class="counter-display" id="counter">0</div>
+                <button class="counter-button" onclick="resetCounter()">Reset Counter</button>
+            </div>
+
+            <div class="color-changer">
+                <h2 style="color: #667eea; margin-bottom: 20px;">Change Background Theme</h2>
+                <p style="color: #666; margin-bottom: 15px;">Click a color to change the background!</p>
+                <div class="color-buttons">
+                    <div class="color-btn" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);" onclick="changeTheme('purple')"></div>
+                    <div class="color-btn" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);" onclick="changeTheme('pink')"></div>
+                    <div class="color-btn" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);" onclick="changeTheme('blue')"></div>
+                    <div class="color-btn" style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);" onclick="changeTheme('green')"></div>
+                    <div class="color-btn" style="background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);" onclick="changeTheme('sunset')"></div>
+                    <div class="color-btn" style="background: linear-gradient(135deg, #30cfd0 0%, #330867 100%);" onclick="changeTheme('dark')"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let clickCount = 0;
+        const themes = {
+            purple: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+            pink: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)',
+            blue: 'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)',
+            green: 'linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)',
+            sunset: 'linear-gradient(135deg, #fa709a 0%, #fee140 100%)',
+            dark: 'linear-gradient(135deg, #30cfd0 0%, #330867 100%)'
+        };
+
+        function playSound(type) {
+            clickCount++;
+            updateCounter();
+            
+            // Create visual feedback
+            const cards = document.querySelectorAll('.fact-card');
+            cards.forEach(card => {
+                if (card.style.transform) {
+                    card.style.animation = 'none';
+                    setTimeout(() => {
+                        card.style.animation = '';
+                    }, 10);
+                }
+            });
+
+            // Add pulse effect to clicked card
+            event.currentTarget.classList.add('pulse');
+            setTimeout(() => {
+                event.currentTarget.classList.remove('pulse');
+            }, 2000);
+        }
+
+        function updateCounter() {
+            const counter = document.getElementById('counter');
+            counter.textContent = clickCount;
+            counter.style.transform = 'scale(1.2)';
+            setTimeout(() => {
+                counter.style.transform = 'scale(1)';
+            }, 200);
+        }
+
+        function resetCounter() {
+            clickCount = 0;
+            updateCounter();
+        }
+
+        function changeTheme(theme) {
+            document.body.style.background = themes[theme];
+            
+            // Add visual feedback
+            event.target.style.transform = 'scale(1.3)';
+            setTimeout(() => {
+                event.target.style.transform = 'scale(1)';
+            }, 300);
+        }
+
+        // Interactive title
+        document.getElementById('mainTitle').addEventListener('click', function() {
+            const rotations = ['rotate(5deg)', 'rotate(-5deg)', 'rotate(10deg)', 'rotate(-10deg)', 'rotate(0deg)'];
+            let current = 0;
+            const interval = setInterval(() => {
+                this.style.transform = rotations[current];
+                current++;
+                if (current >= rotations.length) {
+                    clearInterval(interval);
+                    this.style.transform = '';
+                }
+            }, 100);
+        });
+
+        // Add random floating animation delays
+        document.querySelectorAll('.floating').forEach((el, index) => {
+            el.style.animationDelay = `${index * 2}s`;
+        });
+
+        // Parallax effect on scroll
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const parallax = document.querySelector('.floating-elements');
+            parallax.style.transform = `translateY(${scrolled * 0.5}px)`;
+        });
+
+        // Add sparkle effect on card hover
+        document.querySelectorAll('.fact-card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                createSparkles(this);
+            });
+        });
+
+        function createSparkles(element) {
+            for (let i = 0; i < 5; i++) {
+                const sparkle = document.createElement('div');
+                sparkle.style.position = 'absolute';
+                sparkle.style.width = '10px';
+                sparkle.style.height = '10px';
+                sparkle.style.background = 'white';
+                sparkle.style.borderRadius = '50%';
+                sparkle.style.pointerEvents = 'none';
+                sparkle.style.left = Math.random() * 100 + '%';
+                sparkle.style.top = Math.random() * 100 + '%';
+                sparkle.style.animation = 'fadeOut 1s ease-out forwards';
+                element.appendChild(sparkle);
+                
+                setTimeout(() => {
+                    sparkle.remove();
+                }, 1000);
+            }
+        }
+
+        // Add fadeOut animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes fadeOut {
+                from {
+                    opacity: 1;
+                    transform: scale(1) translateY(0);
+                }
+                to {
+                    opacity: 0;
+                    transform: scale(0) translateY(-20px);
+                }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>
